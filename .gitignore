@@ -1,0 +1,3 @@
+node_modules/
+# Holds the TV's IP and pairing token.
+config.json

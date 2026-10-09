@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+    <meta name="theme-color" content="#0b0d12" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="TV Remote" />
+    <title>TV Remote</title>
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icon-180.png" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="remote" id="remote">
+      <header class="topbar">
+        <button class="key round power" data-power aria-label="Power">
+          <svg viewBox="0 0 24 24"><path d="M12 3v9M6.3 6.3a8 8 0 1 0 11.4 0" /></svg>
+        </button>
+        <div class="tv-status" id="tvStatus">
+          <span class="dot" id="statusDot"></span>
+          <span id="tvName">Not connected</span>
+        </div>
+        <button class="key round ghost" id="openSettings" aria-label="Settings">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" /></svg>
+        </button>
+      </header>
+
+      <nav class="tabs" role="tablist">
+        <button role="tab" class="tab active" data-tab="pad" aria-selected="true">Remote</button>
+        <button role="tab" class="tab" data-tab="touch" aria-selected="false">Touchpad</button>
+        <button role="tab" class="tab" data-tab="numbers" aria-selected="false">Numbers</button>
+      </nav>
+
+      <section class="row quick">
+        <button class="key pill" data-key="KEY_SOURCE">Source</button>
+        <button class="key pill" data-key="KEY_HOME">
+          <svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" /></svg>
+          Home
+        </button>
+        <button class="key pill" data-key="KEY_MENU">Menu</button>
+      </section>
+
+      <section class="panel" data-panel="pad">
+        <div class="dpad">
+          <button class="key arrow up" data-key="KEY_UP" data-repeat aria-label="Up"><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6" /></svg></button>
+          <button class="key arrow left" data-key="KEY_LEFT" data-repeat aria-label="Left"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" /></svg></button>
+          <button class="key ok" data-key="KEY_ENTER" aria-label="OK">OK</button>
+          <button class="key arrow right" data-key="KEY_RIGHT" data-repeat aria-label="Right"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" /></svg></button>
+          <button class="key arrow down" data-key="KEY_DOWN" data-repeat aria-label="Down"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg></button>
+        </div>
+      </section>
+
+      <section class="panel hidden" data-panel="touch">
+        <div class="touchpad" id="touchpad">
+          <p>Swipe to move<br />Tap to select</p>
+        </div>
+      </section>
+
+      <section class="panel hidden" data-panel="numbers">
+        <div class="numpad">
+          <button class="key" data-key="KEY_1">1</button>
+          <button class="key" data-key="KEY_2">2</button>
+          <button class="key" data-key="KEY_3">3</button>
+          <button class="key" data-key="KEY_4">4</button>
+          <button class="key" data-key="KEY_5">5</button>
+          <button class="key" data-key="KEY_6">6</button>
+          <button class="key" data-key="KEY_7">7</button>
+          <button class="key" data-key="KEY_8">8</button>
+          <button class="key" data-key="KEY_9">9</button>
+          <button class="key small" data-key="KEY_CH_LIST">List</button>
+          <button class="key" data-key="KEY_0">0</button>
+          <button class="key small" data-key="KEY_PRECH">Prev</button>
+        </div>
+      </section>
+
+      <section class="row nav-keys">
+        <button class="key round" data-key="KEY_RETURN" aria-label="Back">
+          <svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5" /><path d="M4 9h11a5 5 0 0 1 0 10h-3" /></svg>
+        </button>
+        <button class="key round" data-key="KEY_PLAY" aria-label="Play">
+          <svg viewBox="0 0 24 24" class="fill"><path d="M8 5v14l11-7z" /></svg>
+        </button>
+        <button class="key round" data-key="KEY_PAUSE" aria-label="Pause">
+          <svg viewBox="0 0 24 24" class="fill"><path d="M7 5h3v14H7zM14 5h3v14h-3z" /></svg>
+        </button>
+        <button class="key round" data-key="KEY_EXIT" aria-label="Exit">
+          <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
+      </section>
+
+      <section class="row rockers">
+        <div class="rocker">
+          <button class="key" data-key="KEY_VOLUP" data-repeat aria-label="Volume up">+</button>
+          <span class="rocker-label">VOL</span>
+          <button class="key" data-key="KEY_VOLDOWN" data-repeat aria-label="Volume down">−</button>
+        </div>
+        <div class="middle">
+          <button class="key round" data-key="KEY_MUTE" aria-label="Mute">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4z" /><path d="M22 9l-6 6M16 9l6 6" /></svg>
+          </button>
+          <button class="key round" id="openKeyboard" aria-label="Type text">
+            <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2" /><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10" /></svg>
+          </button>
+        </div>
+        <div class="rocker">
+          <button class="key" data-key="KEY_CHUP" aria-label="Channel up"><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6" /></svg></button>
+          <span class="rocker-label">CH</span>
+          <button class="key" data-key="KEY_CHDOWN" aria-label="Channel down"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg></button>
+        </div>
+      </section>
+
+      <section class="row media">
+        <button class="key round small" data-key="KEY_REWIND" aria-label="Rewind">
+          <svg viewBox="0 0 24 24" class="fill"><path d="M11 6v12l-8-6zM20 6v12l-8-6z" /></svg>
+        </button>
+        <button class="key round small" data-key="KEY_STOP" aria-label="Stop">
+          <svg viewBox="0 0 24 24" class="fill"><rect x="6" y="6" width="12" height="12" rx="1" /></svg>
+        </button>
+        <button class="key round small" data-key="KEY_FF" aria-label="Fast forward">
+          <svg viewBox="0 0 24 24" class="fill"><path d="M4 6v12l8-6zM13 6v12l8-6z" /></svg>
+        </button>
+        <button class="key round small" data-key="KEY_INFO" aria-label="Info">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 11v6M12 7.5v.01" /></svg>
+        </button>
+      </section>
+
+      <section class="apps" id="apps" aria-label="Apps"></section>
+    </main>
+
+    <dialog class="sheet" id="keyboardSheet">
+      <form method="dialog" id="keyboardForm">
+        <h2>Type on TV</h2>
+        <p class="hint">Open a search box on the TV first, then type here.</p>
+        <input id="keyboardInput" type="text" autocomplete="off" autocapitalize="off" maxlength="500" placeholder="Search…" />
+        <div class="sheet-actions">
+          <button type="button" class="btn ghost" data-close>Cancel</button>
+          <button type="submit" class="btn primary">Send</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="sheet" id="settingsSheet">
+      <form method="dialog" id="pairForm">
+        <h2>Connect your TV</h2>
+        <ol class="steps">
+          <li>Turn the TV on. Make sure it's on the same Wi-Fi as this computer.</li>
+          <li>Tap <strong>Find my TV</strong>, or enter its IP address (TV Settings › General › Network › Network Status › IP Settings).</li>
+          <li>Tap <strong>Connect</strong>, then choose <strong>Allow</strong> on the TV screen.</li>
+        </ol>
+        <button type="button" class="btn ghost wide" id="discoverBtn">Find my TV</button>
+        <div class="found" id="foundList"></div>
+        <label for="ipInput">TV IP address</label>
+        <input id="ipInput" type="text" inputmode="decimal" placeholder="192.168.1.50" autocomplete="off" />
+        <p class="message" id="pairMessage" role="status"></p>
+        <div class="sheet-actions">
+          <button type="button" class="btn ghost" data-close>Close</button>
+          <button type="submit" class="btn primary" id="pairBtn">Connect</button>
+        </div>
+        <button type="button" class="btn link danger" id="forgetBtn">Forget this TV</button>
+        <p class="hint small">To turn the TV on from this remote, enable <em>Power On with Mobile</em> on the TV (Settings › General › Network › Expert Settings).</p>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="alert"></div>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
