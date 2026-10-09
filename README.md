@@ -4,6 +4,10 @@ vibe coded tv remote for when you cant find the damn remote
 
 Control a Samsung Smart TV (Tizen, 2016 and newer) from your phone: power, D-pad, a swipe touchpad, volume, channels, number pad, playback, typing into TV search boxes, and one-tap app launch (Netflix, YouTube, Prime Video, Disney+, Max, Hulu, Apple TV, Spotify, Plex).
 
+> **Not affiliated with Samsung.** This is an independent project. Samsung and Smart TV are trademarks of Samsung Electronics Co., Ltd., used here only to describe which TVs it works with.
+
+> **Early days:** so far it's been tested against a simulated TV, not real hardware. If you try it, please [open an issue](../../issues) saying which TV model (and year) worked or didn't.
+
 ## How it works
 
 Samsung TVs only accept remote commands from your home network, over a connection that phone browsers block. So the remote has two parts:
@@ -47,7 +51,7 @@ To start the bridge automatically, run it with a process manager such as `pm2`:
 npx pm2 start server.js --name tv-remote && npx pm2 save
 ```
 
-Options (environment variables): `PORT` (default `8080`), `HOST` (default `0.0.0.0`), `REMOTE_CONFIG` (where the TV's IP and pairing token are saved; default `config.json` in this folder).
+Options (environment variables): `PORT` (default `8080`), `HOST` (default `0.0.0.0`), `ALLOWED_HOSTS` (comma-separated hostnames you open the remote under, if not an IP address or a `.local` name), `REMOTE_CONFIG` (where the TV's IP and pairing token are saved; default `config.json` in this folder).
 
 ## Troubleshooting
 
@@ -58,7 +62,7 @@ Options (environment variables): `PORT` (default `8080`), `HOST` (default `0.0.0
 
 ## Security
 
-Anyone on your Wi-Fi who opens the bridge address can control the TV, just as with Samsung's own SmartThings app. The bridge only sends the remote keys and apps listed in `lib/protocol.js`, and only to private (home network) IP addresses. Don't expose port 8080 to the internet.
+Anyone on your Wi-Fi who opens the bridge address can control the TV, just as with Samsung's own SmartThings app. The bridge only sends the remote keys and apps listed in `lib/protocol.js`, and only to private (home network) IP addresses. It also refuses commands from other websites open in your browser, so a web page can't quietly press buttons on your TV (see `lib/guard.js`). Don't expose port 8080 to the internet.
 
 ## Development
 
@@ -66,4 +70,8 @@ Anyone on your Wi-Fi who opens the bridge address can control the TV, just as wi
 npm test
 ```
 
-Tests cover the TV message formats and run the TV client against a fake TV.
+Tests cover the TV message formats, the cross-site request protection, and run the TV client against a fake TV.
+
+## License
+
+[MIT](LICENSE)

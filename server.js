@@ -3,6 +3,7 @@ import http from "node:http";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { rejectApiRequest } from "./lib/guard.js";
 import { APPS, isKnownApp, isPrivateIPv4, isValidKey } from "./lib/protocol.js";
 import { discover, SamsungTV } from "./lib/tv.js";
 
@@ -11,6 +12,11 @@ const PUBLIC = path.join(ROOT, "public");
 const CONFIG_PATH = process.env.REMOTE_CONFIG ?? path.join(ROOT, "config.json");
 const PORT = Number(process.env.PORT ?? 8080);
 const HOST = process.env.HOST ?? "0.0.0.0";
+// Extra hostnames (comma-separated) the remote may be opened under, e.g. "tvremote.lan".
+const ALLOWED_HOSTS = (process.env.ALLOWED_HOSTS ?? "")
+  .split(",")
+  .map((h) => h.trim().toLowerCase())
+  .filter(Boolean);
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -172,6 +178,11 @@ const server = http.createServer(async (req, res) => {
   if (!handler) {
     if (req.method === "GET") return serveStatic(req, res);
     res.writeHead(404).end();
+    return;
+  }
+  const rejected = rejectApiRequest(req, ALLOWED_HOSTS);
+  if (rejected) {
+    res.writeHead(403, { "Content-Type": "application/json" }).end(JSON.stringify({ error: rejected }));
     return;
   }
   try {

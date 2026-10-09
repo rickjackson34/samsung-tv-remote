@@ -2,6 +2,7 @@
   "name": "samsung-remote",
   "version": "1.0.0",
   "private": true,
+  "license": "MIT",
   "description": "Phone remote control for Samsung Smart TVs (Tizen, 2016 and newer)",
   "type": "module",
   "main": "server.js",
