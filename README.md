@@ -6,7 +6,7 @@ Control a Samsung Smart TV (Tizen, 2016 and newer) from your phone: power, D-pad
 
 > **Not affiliated with Samsung.** This is an independent project. Samsung and Smart TV are trademarks of Samsung Electronics Co., Ltd., used here only to describe which TVs it works with.
 
-> **Early days:** so far it's been tested against a simulated TV, not real hardware. If you try it, please [open an issue](../../issues) saying which TV model (and year) worked or didn't.
+> **Early days:** so far it's only been tested on my own TV. If you encounter any issues, please open an Issue or Pull Request if you can fix it. 
 
 ## How it works
 
