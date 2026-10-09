@@ -1,5 +1,7 @@
 # TV Remote for Samsung Smart TVs
 
+vibe coded tv remote for when you cant find the damn remote
+
 Control a Samsung Smart TV (Tizen, 2016 and newer) from your phone: power, D-pad, a swipe touchpad, volume, channels, number pad, playback, typing into TV search boxes, and one-tap app launch (Netflix, YouTube, Prime Video, Disney+, Max, Hulu, Apple TV, Spotify, Plex).
 
 ## How it works
