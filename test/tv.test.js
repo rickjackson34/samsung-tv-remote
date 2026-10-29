@@ -105,3 +105,32 @@ test("powerToggle sends KEY_POWER when the TV is on", async () => {
   assert.equal(received.at(-1).params.DataOfCmd, "KEY_POWER");
   tv.close();
 });
+
+test("powerToggle wakes the TV when it answers info but refuses the remote channel", async () => {
+  // Device info answers (like a TV in network standby), but nothing listens for the remote.
+  const closed = http.createServer().listen(0, "127.0.0.1");
+  await new Promise((r) => closed.once("listening", r));
+  const refusedPort = closed.address().port;
+  await new Promise((r) => closed.close(r));
+
+  const tv = new SamsungTV({ ip: "127.0.0.1", infoPort: port, mac: "aa:bb:cc:dd:ee:ff" });
+  // Simulate the default secure port refusing: point the remote at a closed port.
+  tv.port = refusedPort;
+  const woken = [];
+  tv.wake = async (mac) => woken.push(mac);
+  assert.equal(await tv.powerToggle(), "on");
+  assert.deepEqual(woken, ["aa:bb:cc:dd:ee:ff"]);
+});
+
+test("a refused connection doesn't permanently switch the TV to plain ws", async () => {
+  const tv = new SamsungTV({ ip: "127.0.0.1" }); // nothing listens on 8001/8002 here
+  let switched = false;
+  tv.on("secure", () => (switched = true));
+  await assert.rejects(tv.connect(), /ECONNREFUSED/);
+  assert.equal(tv.secure, true);
+  assert.equal(switched, false);
+
+  const plain = new SamsungTV({ ip: "127.0.0.1", secure: false });
+  await assert.rejects(plain.connect(), /ECONNREFUSED/);
+  assert.equal(plain.secure, false);
+});
